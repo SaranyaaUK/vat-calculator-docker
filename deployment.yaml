@@ -1,6 +1,3 @@
-# Kubernetes manifest
-# What do i want k8 to do for me?
-# resources -- requests and limits - min & max 
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,9 +35,6 @@ spec:
             name: calc          
     
 ---
-# This is going to expose the app externally 
-# Service is like a interface between the cluster and the outer world
-# Loadbalancer kind of service and decides which one will run the incoming request
 apiVersion: v1
 kind: Service
 metadata:
