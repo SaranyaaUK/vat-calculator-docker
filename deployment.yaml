@@ -1,0 +1,57 @@
+# Kubernetes manifest
+# What do i want k8 to do for me?
+# resources -- requests and limits - min & max 
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calc
+  labels:
+    app: calc
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: calc
+      
+  template:
+    metadata:
+      labels:
+        app: calc
+        tier: calc
+    spec:
+      automountServiceAccountToken: false
+      containers:
+        - name: calc
+          image: dockerid/image:latest
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "8Mi"
+              cpu: "50m"
+              ephemeral-storage: "2Gi"
+            limits:
+              memory: "16Mi"
+              cpu: "100m"
+              ephemeral-storage: "4Gi"
+          ports:
+          - containerPort: 80
+            name: calc          
+    
+---
+# This is going to expose the app externally 
+# Service is like a interface between the cluster and the outer world
+# Loadbalancer kind of service and decides which one will run the incoming request
+apiVersion: v1
+kind: Service
+metadata:
+  name: calc
+  labels:
+    app: calc
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+  selector:
+    app: calc
+    tier: calc
+  type: LoadBalancer
