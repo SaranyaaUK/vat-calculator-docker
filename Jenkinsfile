@@ -62,7 +62,7 @@ pipeline{
 
             stage('Deploy to GKE') {
                 steps{
-                    sh "sed -i 's|dockerid/image:latest|${dockerUserName}/${imageName}:${env.BUILD_ID}|g' deployment.yaml"
+                    sh "sed -i 's|dockerid/image:latest|${dockerUserName}/${imageName}:${env.BUILD_ID}|g' deployment2.yaml"
                     step([$class: 'KubernetesEngineBuilder', 
                     projectId: projectId, 
                     clusterName: clusterName, 
